@@ -3,45 +3,36 @@ package com.example.marvelheroes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.marvelheroes.ui.theme.MarvelHeroesTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.marvelheroes.screens.HeroesScreen
+import com.example.marvelheroes.data.heroes
+import com.example.marvelheroes.screens.HeroDetailsScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            MarvelHeroesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            MarvelApp()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MarvelHeroesTheme {
-        Greeting("Android")
+fun MarvelApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "heroesList") {
+        composable("heroesList") {
+            HeroesScreen(navController = navController)
+        }
+        composable("heroDetails/{heroName}") { backStackEntry ->
+            val heroName = backStackEntry.arguments?.getString("heroName")
+            val hero = heroes.find { it.name == heroName }
+            if (hero != null) {
+                HeroDetailsScreen(hero = hero, navController = navController)
+            }
+        }
     }
 }
