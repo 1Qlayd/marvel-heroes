@@ -1,4 +1,4 @@
-package com.example.marvelheroes.components
+package com.example.marvelheroes.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,14 +12,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import com.example.marvelheroes.ui.theme.Choose
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.marvelheroes.R
+import com.example.marvelheroes.components.HeroIcon
 import com.example.marvelheroes.data.heroes
+import com.example.marvelheroes.ui.theme.DarkGray2
+import com.example.marvelheroes.ui.theme.DarkRed
 
 @Composable
 fun HeroesScreen(navController: NavController) {
@@ -28,11 +34,19 @@ fun HeroesScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Gray)
+            .background(
+                brush = Brush.linearGradient(
+                    1.0f to DarkGray2,
+                    1.0f to DarkRed,
+                    start = Offset(450.0f, 500.0f),
+                    end = Offset(1090.0f, 1100.0f),
+                    tileMode = TileMode.Clamp
+                )
+            )
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(10.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.marvel_logo),
