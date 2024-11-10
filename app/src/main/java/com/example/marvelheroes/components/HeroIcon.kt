@@ -24,7 +24,8 @@ fun HeroIcon(hero: Hero, onClick: () -> Unit) {
             .clickable { onClick() }
     ) {
         AsyncImage (
-            model = hero.imageUrl,
+
+            model = hero.thumbnail.fullUrl(),
             contentDescription = "Hero Image",
             modifier = Modifier
                 .clip(RoundedCornerShape(24.dp))

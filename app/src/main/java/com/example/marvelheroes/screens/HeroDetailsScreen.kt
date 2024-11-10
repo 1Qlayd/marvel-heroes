@@ -21,17 +21,53 @@ import androidx.navigation.NavHostController
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun HeroDetailsScreen(hero: Hero, navController: NavHostController) {
+fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
+    var hero by remember { mutableStateOf<Hero?>(null) }
+    var error by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = heroId) {
+        try {
+            isLoading = true
+            val response = RetrofitInstance.api.getHeroById(heroId, "0665987211e5f9db5aa80dc61dfd66bc")
+            if (response.isSuccessful) {
+                hero = response.body()
+            } else {
+                error = "Ошибка загрузки данных"
+            }
+        } catch (e: Exception) {
+            error = "Ошибка сети"
+        } finally {
+            isLoading = false
+        }
+    }
+
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Details") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -39,52 +75,41 @@ fun HeroDetailsScreen(hero: Hero, navController: NavHostController) {
                 .padding(innerPadding)
                 .background(color = Color.Gray)
         ) {
-            AsyncImage(
-                model = hero.imageUrl,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Column(
-                modifier = Modifier
-                    .padding(top = 16.dp, start = 16.dp)
-                    .width(50.dp)
-                    .height(50.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top
-            ) {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color.White
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (error != null) {
+                Text(text = error!!, color = Color.Red, modifier = Modifier.align(Alignment.Center))
+            } else if (hero != null) {
+                AsyncImage(
+                    model = hero!!.thumbnail.fullUrl(),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                ) {
+                    Text(
+                        text = hero!!.name,
+                        color = Color.White,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = hero!!.description,
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.align(Alignment.Start)
                     )
                 }
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
-
-                ) {
-                Text(
-                    text = hero.name,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = hero.description,
-                    color = Color.White,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.align(Alignment.Start)
-                )
             }
         }
     }
