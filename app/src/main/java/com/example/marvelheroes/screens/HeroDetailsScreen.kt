@@ -44,7 +44,7 @@ fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
     LaunchedEffect(key1 = heroId) {
         try {
             isLoading = true
-            val response = RetrofitInstance.api.getHeroById(heroId, "0665987211e5f9db5aa80dc61dfd66bc")
+            val response = RetrofitInstance.api.getHeroById(heroId)
             if (response.isSuccessful) {
                 hero = response.body()
             } else {

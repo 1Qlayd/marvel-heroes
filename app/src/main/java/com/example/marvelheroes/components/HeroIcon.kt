@@ -22,15 +22,25 @@ fun HeroIcon(hero: Hero, onClick: () -> Unit) {
             .fillMaxWidth()
             .height(600.dp)
             .clickable { onClick() }
+            .clip(RoundedCornerShape(24.dp))
     ) {
-        AsyncImage (
+        var imageLoading by remember { mutableStateOf(true) }
 
+        AsyncImage(
             model = hero.thumbnail.fullUrl(),
             contentDescription = "Hero Image",
             modifier = Modifier
-                .clip(RoundedCornerShape(24.dp))
+                .fillMaxSize()
                 .align(Alignment.Center),
+            onSuccess = { imageLoading = false },
+            onError = { imageLoading = false }
         )
+
+        if (imageLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
 
         Text(
             text = hero.name,

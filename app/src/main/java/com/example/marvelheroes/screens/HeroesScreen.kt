@@ -28,11 +28,11 @@ fun HeroesScreen(navController: NavController, apikey: String) {
     LaunchedEffect(key1 = Unit) {
         try {
             isLoading = true
-            val response = RetrofitInstance.api.getHeroes("0665987211e5f9db5aa80dc61dfd66bc")
+            val response = RetrofitInstance.api.getHeroes()
             if (response.isSuccessful) {
                 heroes = response.body()?.data?.results ?: emptyList()
             } else {
-                error = "Ошибка загрузки данных"
+                error = "Ошибка загрузки данных: ${response.code()} - ${response.message()}"
             }
         } catch (e: Exception) {
             error = "Ошибка сети"

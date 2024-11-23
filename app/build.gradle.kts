@@ -76,4 +76,5 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
     implementation(libs.coil.compose.v210)
+    implementation(libs.logging.interceptor)
 }
