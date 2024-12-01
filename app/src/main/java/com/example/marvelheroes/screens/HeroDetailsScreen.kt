@@ -56,7 +56,6 @@ fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
             isLoading = false
         }
     }
-
     Scaffold(
         topBar = {
             TopAppBar(
