@@ -77,4 +77,7 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.coil.compose.v210)
     implementation(libs.logging.interceptor)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

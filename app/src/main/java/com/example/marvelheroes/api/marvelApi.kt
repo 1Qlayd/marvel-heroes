@@ -5,10 +5,11 @@ import com.example.marvelheroes.data.MarvelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface marvelApi {
     @GET("/v1/public/characters")
-    suspend fun getHeroes(): Response<MarvelResponse>
+    suspend fun getHeroes(@Query("limit") limit: Int): Response<MarvelResponse>
 
     @GET("/v1/public/characters/{characterId}")
     suspend fun getHeroById(

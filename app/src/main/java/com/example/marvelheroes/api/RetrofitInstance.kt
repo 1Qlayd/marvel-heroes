@@ -28,7 +28,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val api: marvelApi by lazy { retrofit.create(marvelApi::class.java) }
+        val api: marvelApi by lazy { retrofit.create(marvelApi::class.java) }
 }
 
 class MarvelApiInterceptor(private val publicKey: String, private val privateKey: String) : Interceptor {
