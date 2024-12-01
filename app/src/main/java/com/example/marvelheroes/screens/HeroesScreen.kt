@@ -35,7 +35,7 @@ fun HeroesScreen(navController: NavController, apikey: String) {
                 error = "Ошибка загрузки данных: ${response.code()} - ${response.message()}"
             }
         } catch (e: Exception) {
-            error = "Ошибка сети"
+            error = "Ошибка сети ${e.message}"
         } finally {
             isLoading = false
         }

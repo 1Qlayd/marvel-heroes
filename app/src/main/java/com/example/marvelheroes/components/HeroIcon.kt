@@ -27,7 +27,7 @@ fun HeroIcon(hero: Hero, onClick: () -> Unit) {
         var imageLoading by remember { mutableStateOf(true) }
 
         AsyncImage(
-            model = hero.thumbnail.fullUrl(),
+            model = hero.thumbnail?.fullUrl(),
             contentDescription = "Hero Image",
             modifier = Modifier
                 .fillMaxSize()

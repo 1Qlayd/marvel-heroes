@@ -80,7 +80,7 @@ fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
                 Text(text = error!!, color = Color.Red, modifier = Modifier.align(Alignment.Center))
             } else if (hero != null) {
                 AsyncImage(
-                    model = hero!!.thumbnail.fullUrl(),
+                    model = hero!!.thumbnail?.fullUrl(),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
