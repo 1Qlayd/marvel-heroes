@@ -64,7 +64,7 @@ private fun LoadingIndicator() {
 @Composable
 private fun ErrorIndicator() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = stringResource(R.string.error))
+//        Text(text = stringResource(R.string.error))
     }
 }
 
