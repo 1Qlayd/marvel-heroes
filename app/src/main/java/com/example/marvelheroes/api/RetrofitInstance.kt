@@ -10,7 +10,6 @@ import com.example.marvelheroes.api.marvelApi
 
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://gateway.marvel.com"
     private const val publicKey = "0665987211e5f9db5aa80dc61dfd66bc"
     private const val privateKey = "576892428e3460628065a626ec444a865bdc68c4"
 
@@ -22,9 +21,9 @@ object RetrofitInstance {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
+            .baseUrl("https://gateway.marvel.com/v1/public/")
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
 

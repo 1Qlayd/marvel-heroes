@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.marvelheroes.R
 import com.example.marvelheroes.components.HeroIcon
-import com.example.marvelheroes.data.Hero
+import com.example.marvelheroes.data.HeroDTO
 
 
 @Composable
 fun HeroesScreen(navController: NavController, apikey: String) {
-    var heroes by remember { mutableStateOf<List<Hero>>(emptyList()) }
+    var heroes by remember { mutableStateOf<List<HeroDTO>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
@@ -30,7 +30,7 @@ fun HeroesScreen(navController: NavController, apikey: String) {
             isLoading = true
             val response = RetrofitInstance.api.getHeroes()
             if (response.isSuccessful) {
-                heroes = response.body()?.data?.results ?: emptyList()
+                heroes = (response.body()?.data?.results ?: emptyList()) as List<HeroDTO>
             } else {
                 error = "Ошибка загрузки данных: ${response.code()} - ${response.message()}"
             }

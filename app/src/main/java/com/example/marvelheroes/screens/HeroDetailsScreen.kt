@@ -4,7 +4,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil.compose.AsyncImage
-import com.example.marvelheroes.data.Hero
+import com.example.marvelheroes.data.HeroDTO
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
@@ -37,7 +37,7 @@ import androidx.compose.runtime.*
 
 @Composable
 fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
-    var hero by remember { mutableStateOf<Hero?>(null) }
+    var hero by remember { mutableStateOf<HeroDTO?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
@@ -80,7 +80,7 @@ fun HeroDetailsScreen(heroId: Int, navController: NavHostController) {
                 Text(text = error!!, color = Color.Red, modifier = Modifier.align(Alignment.Center))
             } else if (hero != null) {
                 AsyncImage(
-                    model = hero!!.thumbnail?.fullUrl(),
+                    model = hero!!.imageUrl,
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop

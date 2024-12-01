@@ -12,10 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.marvelheroes.data.Hero
+import com.example.marvelheroes.data.HeroDTO
 
 @Composable
-fun HeroIcon(hero: Hero, onClick: () -> Unit) {
+fun HeroIcon(hero: HeroDTO, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -27,7 +27,7 @@ fun HeroIcon(hero: Hero, onClick: () -> Unit) {
         var imageLoading by remember { mutableStateOf(true) }
 
         AsyncImage(
-            model = hero.thumbnail?.fullUrl(),
+            model = hero.imageUrl,
             contentDescription = "Hero Image",
             modifier = Modifier
                 .fillMaxSize()
